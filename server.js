@@ -17,18 +17,10 @@ app.use(express.static(__dirname + '/public'));
 //require("./routes/apiRoutes")(app);
 //require("./routes/htmlRoutes")(app);
 
-app.get("/index", function(req, res) {
-    res.sendFile(path.join(__dirname, "./public/index.html"));
-});
 
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
-
-// If no matching route is found default to home
-// app.get("*", function(req, res) {
-//     res.sendFile(path.join(__dirname, "./public/index.html"));
-// });
 
 app.get("/api/notes", async function(req, res) {
     notes = JSON.parse(await readFileAsync(`./db/db.json`, 'utf8'));
@@ -48,8 +40,28 @@ app.post("/api/notes", async function(req, res) {
     notes = JSON.parse(await readFileAsync(`./db/db.json`, 'utf8'));
     notes.push(newNote);
     writeFileAsync("./db/db.json", JSON.stringify(notes), "utf8");
+    //characters.push(newCharacter);
 
-    res.json(newNote);
+    res.json(true);
+});
+
+app.delete("/api/notes/:note", async function(req, res) {
+    //await JSON.parse(readFileAsync(`./db/db.json`, 'utf8'));
+    var chosen = req.params.note;
+
+    console.log(chosen);
+
+    let notes = JSON.parse(await readFileAsync(`./db/db.json`, 'utf8'));
+    
+    notes.splice(notes.indexOf(chosen), 1);
+    console.log(notes);
+    writeFileAsync("./db/db.json", JSON.stringify(notes), "utf8");
+       
+    return res.json(true);
+})
+
+app.get("*", function(req, res) {
+    res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.listen(PORT, function() {
