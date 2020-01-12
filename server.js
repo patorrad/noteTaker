@@ -14,10 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
-//require("./routes/apiRoutes")(app);
-//require("./routes/htmlRoutes")(app);
-
-
 app.get("/notes", function(req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
@@ -28,25 +24,19 @@ app.get("/api/notes", async function(req, res) {
   });
 
 app.post("/api/notes", async function(req, res) {
-    // req.body hosts is equal to the JSON post sent from the user
-    // This works because of our body parsing middleware
-    var newNote = req.body;
 
-    // Using a RegEx Pattern to remove spaces from newCharacter
-    // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-    //newNote.routeName = newNote.name.replace(/\s+/g, "").toLowerCase();
+    var newNote = req.body;
 
     console.log(newNote);
     notes = JSON.parse(await readFileAsync(`./db/db.json`, 'utf8'));
     notes.push(newNote);
     writeFileAsync("./db/db.json", JSON.stringify(notes), "utf8");
-    //characters.push(newCharacter);
 
     res.json(true);
 });
 
 app.delete("/api/notes/:note", async function(req, res) {
-    //await JSON.parse(readFileAsync(`./db/db.json`, 'utf8'));
+
     var chosen = req.params.note;
 
     console.log(chosen);

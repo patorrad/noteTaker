@@ -13,7 +13,7 @@ The Notes page includes functionality to display saved notes and write / delete 
 
 ## Installation
 
-To run the app locally with Node.js the following are dependencies need to be installed:
+To run the app locally with Node.js the following are dependencies that need to be installed:
 
  * Express
  * Path
@@ -22,7 +22,7 @@ To run the app locally with Node.js the following are dependencies need to be in
 
 ## Usage
 
-In order to run the app on a local server after installation of needed packages run the command "node server.js" in the main app folder.
+In order to run the app on a local server after installation of needed packages run the command "node server.js" in the main app folder. Point you browser to http://localhost:3000. A specific ID is assigned to each note. The route "/api/notes/:note" allows for deletion of notes thanks to the assigned ID. The app handles these intricacies for the user.
 
 ## Tests
 
